@@ -1,4 +1,5 @@
 import Paciente from "../models/Paciente.js";
+import emailAgendado from "../helpers/emailAgendado.js";
 
 const agregarPaciente = async (req, res) => {
     const paciente = new Paciente(req.body);
@@ -7,6 +8,14 @@ const agregarPaciente = async (req, res) => {
 
     try {
         const pacienteAlmacenado = await paciente.save();
+        const datos = {
+            email: pacienteAlmacenado.email,
+            propietario: pacienteAlmacenado.propietario,
+            nombre: pacienteAlmacenado.nombre,
+            fecha: pacienteAlmacenado.fecha,
+            veterinario: req.veterinario.nombre   
+        };
+        emailAgendado(datos);
         res.json(pacienteAlmacenado);
     } catch (error) {
         console.log(error);
