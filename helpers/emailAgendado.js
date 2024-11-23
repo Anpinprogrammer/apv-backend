@@ -1,6 +1,12 @@
 import nodemailer from "nodemailer";
 
 const emailAgendado = async (datos) => {
+
+    const formatearFecha = (fecha) => {
+        const nuevaFecha = new Date(fecha)
+        return new Intl.DateTimeFormat('es-ES', {dateStyle: 'long'}).format(nuevaFecha)
+    }
+    
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -23,7 +29,9 @@ const emailAgendado = async (datos) => {
           html: `<p>Hola: ${propietario}, queriamos confirmar la cita para tu mascota en APV.</p>
                 <p>Informacion de la cita:
                 <p>Nombre de la mascota: ${nombre}</p>
-                <p>Fecha de la cita: ${fecha}</p>
+                <p>Fecha de la cita: ${formatearFecha(fecha)
+                    
+                }</p>
                 <p>Veterinario a cargo: ${veterinario}</p>
 
                 <p>Por favor confirmar asistencia a la cita</p>
