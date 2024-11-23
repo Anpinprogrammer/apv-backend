@@ -1,19 +1,22 @@
 import nodemailer from "nodemailer";
 
 const emailOlvidePassword = async (datos) => {
-    var transport = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        }
-      });
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAUTH2',
+        user: process.env.MAIL_USERNAME,
+        pass: process.env.MAIL_PASSWORD,
+        clientId: process.env.OAUTH_CLIENTID,
+        clientSecret: process.env.OUTH_CLIENT_SECRET,
+        refreshToken: process.env.OUTH_REFRESH_TOKEN
+    }
+    });
 
       const { email, nombre, token } = datos;
       //Enviar email
-      const info = await transport.sendMail({
-          from: 'APV - Administrador de Pacientes de Veterinaria',
+      const info = await transporter.sendMail({
+          from: 'andresspinedago@gmail.com',
           to: email,
           subject: 'Reestablece tu contraseña',
           text: 'Reestablece tu contraseña',
